@@ -76,25 +76,21 @@ export function DateField({
   }
   useEffect(() => {
     if (!open) return;
-    const outside = (e: PointerEvent) => {
+    const outside = (e: Event) => {
       if (!root.current?.contains(e.target as Node)) setOpen(false);
     };
     document.addEventListener("pointerdown", outside);
+    document.addEventListener("focusin", outside);
     root.current
       ?.querySelector<HTMLButtonElement>(".jalali-day[aria-pressed=true], .jalali-day[tabindex='0']")
       ?.focus();
-    return () => document.removeEventListener("pointerdown", outside);
+    return () => {
+      document.removeEventListener("pointerdown", outside);
+      document.removeEventListener("focusin", outside);
+    };
   }, [open]);
   return (
-    <div
-      className="field jalali-field"
-      role="group"
-      aria-labelledby={`${id}-label`}
-      ref={root}
-      onBlur={(e) => {
-        if (e.relatedTarget && !e.currentTarget.contains(e.relatedTarget as Node)) setOpen(false);
-      }}
-    >
+    <div className="field jalali-field" ref={root}>
       <label id={`${id}-label`} htmlFor={id}>
         {label}
       </label>
