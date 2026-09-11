@@ -1,5 +1,7 @@
 # Verification record — 2026-09-11
 
+Calendar follow-up: replaced the browser's Gregorian date popup with an RTL Jalali month/day picker shared by every date field. Uses the existing `jalaali-js` dependency, Persian months/digits, Saturday-first weeks, leap-aware month lengths, today/clear controls and keyboard navigation. Per the user's request for faster deployment, verification was limited to TypeScript, lint on the new component, production build and a focused deployment check; no broad UI suite was repeated.
+
 This record describes executed checks, not a proposed test plan. Evidence uses synthetic demo/test data. Live model quality and actual payments are not claimed.
 
 | Check | Result |
