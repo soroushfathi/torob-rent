@@ -1,0 +1,754 @@
+{
+  "uid": "torob-health",
+  "title": "Torob Rent · Application health",
+  "tags": [
+    "torob-rent",
+    "prototype"
+  ],
+  "timezone": "Asia/Tehran",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Application UP",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "foroushyar-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 0
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "foroushyar-prometheus"
+          },
+          "expr": "up{job=\"torob-rent\"}",
+          "legendFormat": "{{route}}{{capability}}{{provider}}{{outcome}}{{direction}}",
+          "instant": true
+        }
+      ],
+      "description": "Authenticated private scrape; downtime sustained for 2 minutes alerts.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "Unavailable",
+          "decimals": 0
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 2,
+      "title": "Database readiness",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "foroushyar-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 0
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "foroushyar-prometheus"
+          },
+          "expr": "torob_database_up{job=\"torob-rent\"}",
+          "legendFormat": "{{route}}{{capability}}{{provider}}{{outcome}}{{direction}}",
+          "instant": true
+        }
+      ],
+      "description": "SELECT 1 probe. Zero for 2 minutes alerts.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "Unavailable",
+          "decimals": 0
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 3,
+      "title": "API requests / second",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "foroushyar-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 0
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "foroushyar-prometheus"
+          },
+          "expr": "sum(rate(torob_http_requests_total{job=\"torob-rent\",route!~\"metrics|health\"}[5m]))",
+          "legendFormat": "{{route}}{{capability}}{{provider}}{{outcome}}{{direction}}",
+          "instant": false
+        }
+      ],
+      "description": "Excludes probes and metric scrapes.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "noValue": "Unavailable",
+          "decimals": 0
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 4,
+      "title": "API server error fraction",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "foroushyar-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "foroushyar-prometheus"
+          },
+          "expr": "sum(rate(torob_http_requests_total{job=\"torob-rent\",status=\"5xx\",route!~\"metrics|health\"}[5m])) / clamp_min(sum(rate(torob_http_requests_total{job=\"torob-rent\",route!~\"metrics|health\"}[5m])),0.000001)",
+          "legendFormat": "{{route}}{{capability}}{{provider}}{{outcome}}{{direction}}",
+          "instant": false
+        }
+      ],
+      "description": "5xx / all business API requests in a 5 minute rate window.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "noValue": "Unavailable",
+          "decimals": 2
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 5,
+      "title": "API latency p50",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "foroushyar-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "foroushyar-prometheus"
+          },
+          "expr": "histogram_quantile(0.50,sum by(le)(rate(torob_http_duration_seconds_bucket{job=\"torob-rent\",route!~\"metrics|health\"}[5m])))",
+          "legendFormat": "{{route}}{{capability}}{{provider}}{{outcome}}{{direction}}",
+          "instant": false
+        }
+      ],
+      "description": "Histogram over business API requests.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "noValue": "Unavailable",
+          "decimals": 2
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 6,
+      "title": "API latency p95",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "foroushyar-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "foroushyar-prometheus"
+          },
+          "expr": "histogram_quantile(0.95,sum by(le)(rate(torob_http_duration_seconds_bucket{job=\"torob-rent\",route!~\"metrics|health\"}[5m])))",
+          "legendFormat": "{{route}}{{capability}}{{provider}}{{outcome}}{{direction}}",
+          "instant": false
+        }
+      ],
+      "description": "Histogram over business API requests.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "noValue": "Unavailable",
+          "decimals": 2
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 7,
+      "title": "Database probe latency",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "foroushyar-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 16
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "foroushyar-prometheus"
+          },
+          "expr": "torob_database_probe_seconds{job=\"torob-rent\"}",
+          "legendFormat": "{{route}}{{capability}}{{provider}}{{outcome}}{{direction}}",
+          "instant": false
+        }
+      ],
+      "description": "Readiness-query wall clock time, not all SQL query latency.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "noValue": "Unavailable",
+          "decimals": 2
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 8,
+      "title": "Database pool connections",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "foroushyar-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 16
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "foroushyar-prometheus"
+          },
+          "expr": "torob_database_pool_connections{job=\"torob-rent\"}",
+          "legendFormat": "{{route}}{{capability}}{{provider}}{{outcome}}{{direction}}",
+          "instant": false
+        }
+      ],
+      "description": "Bounded labels: total, idle, waiting.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "Unavailable",
+          "decimals": 0
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 9,
+      "title": "Application process resident memory",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "foroushyar-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 16
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "foroushyar-prometheus"
+          },
+          "expr": "torob_process_resident_memory_bytes{job=\"torob-rent\"}",
+          "legendFormat": "{{route}}{{capability}}{{provider}}{{outcome}}{{direction}}",
+          "instant": false
+        }
+      ],
+      "description": "Linux process metric.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "noValue": "Unavailable",
+          "decimals": 0
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 10,
+      "title": "Process CPU seconds / second",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "foroushyar-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 24
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "foroushyar-prometheus"
+          },
+          "expr": "rate(torob_process_cpu_seconds_total{job=\"torob-rent\"}[5m])",
+          "legendFormat": "{{route}}{{capability}}{{provider}}{{outcome}}{{direction}}",
+          "instant": false
+        }
+      ],
+      "description": "Linux process CPU.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "Unavailable",
+          "decimals": 0
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 11,
+      "title": "AI p50 / p95 latency · last 24h",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "foroushyar-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 24
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "foroushyar-prometheus"
+          },
+          "expr": "torob_ai_latency_seconds{job=\"torob-rent\"}",
+          "legendFormat": "{{route}}{{capability}}{{provider}}{{outcome}}{{direction}}",
+          "instant": false
+        }
+      ],
+      "description": "Durable database aggregates over rolling 24 hours; includes fallback calls.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "noValue": "Unavailable",
+          "decimals": 2
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 12,
+      "title": "AI failures · last 24h",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "foroushyar-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 24
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "foroushyar-prometheus"
+          },
+          "expr": "sum(torob_ai_calls{job=\"torob-rent\",outcome=~\"timeout|invalid|error\"}) or vector(0)",
+          "legendFormat": "{{route}}{{capability}}{{provider}}{{outcome}}{{direction}}",
+          "instant": true
+        }
+      ],
+      "description": "Failed calls recorded durably; no user prompt labels.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "Unavailable",
+          "decimals": 0
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 13,
+      "title": "AI fallback fraction · last 24h",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "foroushyar-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 32
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "foroushyar-prometheus"
+          },
+          "expr": "sum(torob_ai_calls{job=\"torob-rent\",provider=\"fallback\"}) / clamp_min(sum(torob_ai_calls{job=\"torob-rent\"}),1)",
+          "legendFormat": "{{route}}{{capability}}{{provider}}{{outcome}}{{direction}}",
+          "instant": true
+        }
+      ],
+      "description": "Fallback calls / all attempted capabilities; unconfigured is explicit.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "noValue": "Unavailable",
+          "decimals": 2
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 14,
+      "title": "AI token usage · last 24h",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "foroushyar-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 32
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "foroushyar-prometheus"
+          },
+          "expr": "torob_ai_tokens{job=\"torob-rent\"}",
+          "legendFormat": "{{route}}{{capability}}{{provider}}{{outcome}}{{direction}}",
+          "instant": false
+        }
+      ],
+      "description": "Provider-reported input and output token counts.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "Unavailable",
+          "decimals": 0
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 15,
+      "title": "Estimated AI cost · only if prices configured",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "foroushyar-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 32
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "foroushyar-prometheus"
+          },
+          "expr": "torob_ai_estimated_usd{job=\"torob-rent\"} and on(job,instance) (torob_ai_pricing_configured{job=\"torob-rent\"} == 1)",
+          "legendFormat": "{{route}}{{capability}}{{provider}}{{outcome}}{{direction}}",
+          "instant": true
+        }
+      ],
+      "description": "An estimate, not a bill. Unavailable until both token prices are configured.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "noValue": "Unavailable",
+          "decimals": 2
+        },
+        "overrides": []
+      }
+    }
+  ],
+  "editable": false
+}

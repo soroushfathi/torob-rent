@@ -1,0 +1,303 @@
+{
+  "dashboards": [
+    {
+      "uid": "torob-health",
+      "folder": "Torob Rent",
+      "panels": 15
+    },
+    {
+      "uid": "torob-product",
+      "folder": "Torob Rent",
+      "panels": 12
+    },
+    {
+      "uid": "torob-economics",
+      "folder": "Torob Rent",
+      "panels": 8
+    }
+  ],
+  "sqlPanels": [
+    {
+      "title": "Search sessions",
+      "values": [
+        [
+          [
+            9
+          ]
+        ]
+      ]
+    },
+    {
+      "title": "Zero-result rate",
+      "values": [
+        [
+          [
+            0.2222222222222222
+          ]
+        ]
+      ]
+    },
+    {
+      "title": "Search → booking request",
+      "values": [
+        [
+          [
+            0.1111111111111111
+          ]
+        ]
+      ]
+    },
+    {
+      "title": "Search → listing view",
+      "values": [
+        [
+          [
+            0.1111111111111111
+          ]
+        ]
+      ]
+    },
+    {
+      "title": "Search → comparison",
+      "values": [
+        [
+          [
+            0.1111111111111111
+          ]
+        ]
+      ]
+    },
+    {
+      "title": "Search → completed rental",
+      "values": [
+        [
+          [
+            0
+          ]
+        ]
+      ]
+    },
+    {
+      "title": "Durable event counts",
+      "values": [
+        [
+          [
+            "search",
+            "comparison",
+            "booking_requested",
+            "listing_view",
+            "owner_activated",
+            "booking_handed_over",
+            "booking_completed",
+            "booking_accepted"
+          ],
+          [
+            9,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            1
+          ]
+        ]
+      ]
+    },
+    {
+      "title": "Booking cohort outcomes",
+      "values": [
+        [
+          [
+            2
+          ],
+          [
+            1
+          ],
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            1
+          ]
+        ]
+      ]
+    },
+    {
+      "title": "Booking cancellation rate",
+      "values": [
+        [
+          [
+            0
+          ]
+        ]
+      ]
+    },
+    {
+      "title": "First published listing activations",
+      "values": [
+        [
+          [
+            2
+          ]
+        ]
+      ]
+    },
+    {
+      "title": "Median owner response · rolling 7 days",
+      "values": [
+        [
+          [
+            263.687259
+          ]
+        ]
+      ]
+    },
+    {
+      "title": "Search cohorts over time",
+      "values": [
+        [
+          [
+            1789072200000
+          ],
+          [
+            9
+          ],
+          [
+            1
+          ],
+          [
+            0
+          ]
+        ]
+      ]
+    },
+    {
+      "title": "SIMULATED · Requested booking value",
+      "values": [
+        [
+          [
+            4500000
+          ]
+        ]
+      ]
+    },
+    {
+      "title": "SIMULATED · Accepted booking value",
+      "values": [
+        [
+          [
+            2550000
+          ]
+        ]
+      ]
+    },
+    {
+      "title": "SIMULATED · Completed rental GMV",
+      "values": [
+        [
+          [
+            2550000
+          ]
+        ]
+      ]
+    },
+    {
+      "title": "SIMULATED · Average completed booking",
+      "values": [
+        [
+          [
+            2550000
+          ]
+        ]
+      ]
+    },
+    {
+      "title": "ESTIMATE · Platform commission",
+      "values": [
+        [
+          [
+            127500
+          ]
+        ]
+      ]
+    },
+    {
+      "title": "REAL payment collections / refunds · UNAVAILABLE",
+      "values": [
+        [
+          [
+            null
+          ],
+          [
+            null
+          ]
+        ]
+      ]
+    },
+    {
+      "title": "SIMULATED · Completed rental value over time",
+      "values": [
+        [
+          [
+            1789072200000
+          ],
+          [
+            2550000
+          ],
+          [
+            127500
+          ]
+        ]
+      ]
+    },
+    {
+      "title": "SIMULATED · Request-date cohort ledger",
+      "values": [
+        [
+          [
+            1789072200000
+          ],
+          [
+            2
+          ],
+          [
+            4500000
+          ],
+          [
+            1
+          ],
+          [
+            2550000
+          ],
+          [
+            1
+          ],
+          [
+            2550000
+          ],
+          [
+            0
+          ]
+        ]
+      ]
+    }
+  ],
+  "prometheus": [
+    {
+      "metric": {
+        "__name__": "up",
+        "instance": "torob-rent-app:3000",
+        "job": "torob-rent",
+        "service": "torob-rent"
+      },
+      "value": [
+        1789116298.772,
+        "1"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+groups:
+  - name: torob-rent
+    rules:
+      - alert: TorobRentDown
+        expr: up{job="torob-rent"} == 0
+        for: 2m
+        labels: {severity: critical, service: torob-rent}
+        annotations:
+          summary: Torob Rent scrape unavailable for 2 minutes
+      - alert: TorobRentDatabaseDown
+        expr: torob_database_up{job="torob-rent"} == 0
+        for: 2m
+        labels: {severity: critical, service: torob-rent}
+        annotations:
+          summary: Torob Rent database readiness failing for 2 minutes
+      - alert: TorobRentServerErrors
+        expr: sum(rate(torob_http_requests_total{job="torob-rent",status="5xx",route!~"health|metrics"}[5m])) / clamp_min(sum(rate(torob_http_requests_total{job="torob-rent",route!~"health|metrics"}[5m])), 0.000001) > 0.05 and sum(increase(torob_http_requests_total{job="torob-rent",route!~"health|metrics"}[5m])) > 20
+        for: 5m
+        labels: {severity: warning, service: torob-rent}
+        annotations:
+          summary: Torob Rent has over 5 percent 5xx with sufficient traffic for 5 minutes

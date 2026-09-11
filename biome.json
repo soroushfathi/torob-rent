@@ -1,0 +1,29 @@
+{
+  "files": {
+    "includes": [
+      "app/**/*.ts",
+      "app/**/*.tsx",
+      "components/**/*.tsx",
+      "lib/**/*.ts",
+      "db/**/*.ts",
+      "scripts/**/*.ts",
+      "tests/**/*.ts"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 110
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "recommended",
+      "style": { "noNonNullAssertion": "off" },
+      "correctness": { "useExhaustiveDependencies": "off" },
+      "a11y": { "useButtonType": "off", "noLabelWithoutControl": "off" },
+      "suspicious": { "noArrayIndexKey": "off" }
+    }
+  }
+}

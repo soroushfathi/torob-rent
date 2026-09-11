@@ -1,0 +1,19 @@
+apiVersion: 1
+datasources:
+  - name: Torob Rent aggregates
+    uid: torob-rent-postgres
+    type: grafana-postgresql-datasource
+    access: proxy
+    url: torob-rent-db:5432
+    user: torob_reporting
+    jsonData:
+      database: torob_rent
+      sslmode: disable
+      postgresVersion: 1800
+      maxOpenConns: 3
+      maxIdleConns: 2
+      connMaxLifetime: 14400
+    secureJsonData:
+      password: REPLACE_ON_SERVER_ONLY
+    isDefault: false
+    editable: false

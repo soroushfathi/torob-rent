@@ -1,0 +1,444 @@
+{
+  "uid": "torob-economics",
+  "title": "Torob Rent · Marketplace economics · SIMULATED",
+  "tags": [
+    "torob-rent",
+    "prototype"
+  ],
+  "timezone": "Asia/Tehran",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "time": {
+    "from": "now-7d",
+    "to": "now"
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "SIMULATED · Requested booking value",
+      "type": "stat",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "torob-rent-postgres"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 0
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "torob-rent-postgres"
+          },
+          "rawSql": "SELECT coalesce(sum(requested_value),0) AS toman FROM analytics_booking_cohorts WHERE mode = '${mode}' AND $__timeFilter(time)",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "description": "All requested rental quotes from selected request-date cohort, including rejected/cancelled; deposits excluded.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "suffix: تومان",
+          "noValue": "Unavailable",
+          "decimals": 0
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 2,
+      "title": "SIMULATED · Accepted booking value",
+      "type": "stat",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "torob-rent-postgres"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 0
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "torob-rent-postgres"
+          },
+          "rawSql": "SELECT coalesce(sum(accepted_value),0) AS toman FROM analytics_booking_cohorts WHERE mode = '${mode}' AND $__timeFilter(time)",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "description": "Ever-accepted rental value from the same request-date cohort. Later cancellations remain in this gross accepted measure.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "suffix: تومان",
+          "noValue": "Unavailable",
+          "decimals": 0
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 3,
+      "title": "SIMULATED · Completed rental GMV",
+      "type": "stat",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "torob-rent-postgres"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 0
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "torob-rent-postgres"
+          },
+          "rawSql": "SELECT coalesce(sum(gmv),0) AS toman FROM analytics_completed_daily WHERE mode = '${mode}' AND $__timeFilter(time)",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "description": "Completed-date activity. GMV is gross rental value, not revenue; deposits excluded.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "suffix: تومان",
+          "noValue": "Unavailable",
+          "decimals": 0
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 4,
+      "title": "SIMULATED · Average completed booking",
+      "type": "stat",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "torob-rent-postgres"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "torob-rent-postgres"
+          },
+          "rawSql": "SELECT sum(gmv)::float/nullif(sum(rentals),0) AS toman FROM analytics_completed_daily WHERE mode = '${mode}' AND $__timeFilter(time)",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "description": "Completed rental GMV / completed rental count in selected completion-date window.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "suffix: تومان",
+          "noValue": "Unavailable",
+          "decimals": 0
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 5,
+      "title": "ESTIMATE · Platform commission",
+      "type": "stat",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "torob-rent-postgres"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "torob-rent-postgres"
+          },
+          "rawSql": "SELECT coalesce(sum(estimated_commission),0) AS toman FROM analytics_completed_daily WHERE mode = '${mode}' AND $__timeFilter(time)",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "description": "Snapshot demo fee policy, default 500 basis points. Estimated, not collected revenue.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "suffix: تومان",
+          "noValue": "Unavailable",
+          "decimals": 0
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 6,
+      "title": "REAL payment collections / refunds · UNAVAILABLE",
+      "type": "table",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "torob-rent-postgres"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "torob-rent-postgres"
+          },
+          "rawSql": "SELECT NULL::numeric AS actual_collections, NULL::numeric AS actual_refunds",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "description": "Payment processing disabled. Null means unavailable, never zero collected revenue.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "suffix: تومان",
+          "noValue": "Unavailable",
+          "decimals": 0
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 7,
+      "title": "SIMULATED · Completed rental value over time",
+      "type": "timeseries",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "torob-rent-postgres"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 16
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "torob-rent-postgres"
+          },
+          "rawSql": "SELECT time,sum(gmv) AS simulated_gmv,sum(estimated_commission) AS estimated_commission FROM analytics_completed_daily WHERE mode = '${mode}' AND $__timeFilter(time) GROUP BY time ORDER BY time",
+          "format": "time_series",
+          "editorMode": "code"
+        }
+      ],
+      "description": "Completed-date ledger aggregates; actual collections do not exist.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "suffix: تومان",
+          "noValue": "Unavailable",
+          "decimals": 0
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 8,
+      "title": "SIMULATED · Request-date cohort ledger",
+      "type": "table",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "torob-rent-postgres"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 16
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "torob-rent-postgres"
+          },
+          "rawSql": "SELECT time,requested_count,requested_value,accepted_count,accepted_value,completed_count,completed_gmv,cancelled_count FROM analytics_booking_cohorts WHERE mode = '${mode}' AND $__timeFilter(time) ORDER BY time",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "description": "Business database views are the source of truth; process-local counters are not used.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "Unavailable",
+          "decimals": 0
+        },
+        "overrides": []
+      }
+    }
+  ],
+  "editable": false,
+  "templating": {
+    "list": [
+      {
+        "name": "mode",
+        "label": "Data cohort",
+        "type": "custom",
+        "query": "demo,real,test",
+        "current": {
+          "text": "demo",
+          "value": "demo"
+        },
+        "options": [
+          {
+            "text": "demo",
+            "value": "demo",
+            "selected": true
+          },
+          {
+            "text": "real",
+            "value": "real",
+            "selected": false
+          },
+          {
+            "text": "test",
+            "value": "test",
+            "selected": false
+          }
+        ],
+        "includeAll": false,
+        "multi": false
+      }
+    ]
+  }
+}

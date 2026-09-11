@@ -1,0 +1,13 @@
+# Merge this one scrape job into the existing scrape_configs list.
+# Render the token from /etc/torob-rent/metrics-token during installation only.
+job_name: torob-rent
+metrics_path: /api/metrics
+scrape_interval: 15s
+scrape_timeout: 10s
+authorization:
+  type: Bearer
+  credentials: REPLACE_ON_SERVER_ONLY
+static_configs:
+  - targets: ['torob-rent-app:3000']
+    labels:
+      service: torob-rent

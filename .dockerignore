@@ -1,0 +1,11 @@
+node_modules
+.next
+.git
+.env*
+.local
+.data
+.sites-runtime
+test-results
+*.log
+*.tsbuildinfo
+*.tar.gz

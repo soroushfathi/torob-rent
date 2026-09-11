@@ -1,0 +1,35 @@
+        kind         | total | attributed 
+---------------------+-------+------------
+ booking_accepted    |     2 |          1
+ booking_completed   |     1 |          0
+ booking_handed_over |     1 |          0
+ booking_requested   |     3 |          2
+ comparison          |     3 |          2
+ listing_view        |     3 |          2
+ owner_activated     |     2 |          0
+ search              |    11 |         11
+(8 rows)
+
+  status   | bookings | attributed | simulated_rental_toman | separate_deposit_toman 
+-----------+----------+------------+------------------------+------------------------
+ requested |        1 |          1 |                1950000 |               32000000
+ completed |        1 |          0 |                2550000 |               35000000
+ accepted  |        1 |          1 |                1770000 |               28000000
+(3 rows)
+
+ mode | searches | viewed | compared | requested | accepted | completed 
+------+----------+--------+----------+-----------+----------+-----------
+ demo |       11 |      2 |        2 |         2 |        1 |         0
+(1 row)
+
+ reporting_can_read_users | reporting_can_read_bookings | reporting_can_read_aggregates 
+--------------------------+-----------------------------+-------------------------------
+ f                        | f                           | t
+(1 row)
+
+     rolname     | rolsuper | rolcreatedb | rolcreaterole 
+-----------------+----------+-------------+---------------
+ torob_reporting | f        | f           | f
+ torob_app       | f        | f           | f
+(2 rows)
+

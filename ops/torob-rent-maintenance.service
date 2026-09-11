@@ -1,0 +1,8 @@
+[Unit]
+Description=Expire Torob Rent pending requests and clean expired sessions
+After=docker.service
+Requires=docker.service
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/torob-rent/current
+ExecStart=/usr/bin/docker compose --env-file /etc/torob-rent/deploy.env exec -T app node ops/maintenance.cjs

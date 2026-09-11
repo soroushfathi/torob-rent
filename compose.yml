@@ -1,0 +1,60 @@
+name: torob-rent
+services:
+  db:
+    image: ${POSTGRES_IMAGE:-docker.arvancloud.ir/postgres:18-alpine}
+    restart: unless-stopped
+    env_file: /etc/torob-rent/database.env
+    volumes:
+      - postgres:/var/lib/postgresql
+    networks:
+      private:
+      monitoring:
+        aliases: [torob-rent-db]
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U torob_admin -d torob_rent']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    mem_limit: 1g
+    logging:
+      driver: json-file
+      options: {max-size: 10m, max-file: '3'}
+  app:
+    image: torob-rent:${RELEASE_TAG:-current}
+    build:
+      context: .
+      args:
+        NODE_IMAGE: ${NODE_IMAGE:-docker.arvancloud.ir/node:22-bookworm-slim}
+    restart: unless-stopped
+    env_file: /etc/torob-rent/app.env
+    ports: ['127.0.0.1:3417:3000']
+    volumes: [uploads:/data/uploads]
+    networks:
+      private:
+      monitoring:
+        aliases: [torob-rent-app]
+    depends_on:
+      db: {condition: service_healthy}
+    mem_limit: 1g
+    security_opt: ['no-new-privileges:true']
+    cap_drop: [ALL]
+    logging:
+      driver: json-file
+      options: {max-size: 10m, max-file: '3'}
+  migrate:
+    image: torob-rent:${RELEASE_TAG:-current}
+    profiles: [ops]
+    env_file: /etc/torob-rent/migrate.env
+    command: [node, ops/migrate.cjs]
+    networks: [private]
+    depends_on:
+      db: {condition: service_healthy}
+volumes:
+  postgres:
+  uploads:
+networks:
+  private:
+    internal: true
+  monitoring:
+    external: true
+    name: ${MONITORING_NETWORK:-foroushyar_app}

@@ -1,0 +1,44 @@
+{
+  "name": "torob-rent",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1 --port 14567",
+    "build": "next build",
+    "start": "next start --hostname 0.0.0.0",
+    "lint": "biome lint app components lib db scripts tests",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "test:integration": "tsx --env-file=.env.local --test tests/integration/*.test.ts",
+    "db:migrate": "tsx --env-file=.env.local scripts/migrate.ts",
+    "db:seed": "tsx --env-file=.env.local scripts/seed.ts",
+    "db:local": "tsx scripts/local-db.ts",
+    "eval": "tsx tests/evaluate.ts",
+    "format": "biome format --write app components lib db scripts tests"
+  },
+  "dependencies": {
+    "@fontsource/vazirmatn": "^5.3.0",
+    "@prometheus-io/client": "^0.16.1",
+    "drizzle-orm": "^0.45.2",
+    "jalaali-js": "^2.0.1",
+    "lucide-react": "^1.44.0",
+    "next": "^16.3.4",
+    "pg": "^8.23.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "sharp": "^0.35.4",
+    "zod": "^4.6.2"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.13",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^22.20.2",
+    "@types/pg": "^8.23.1",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "embedded-postgres": "^18.4.0-beta.17",
+    "tailwindcss": "^4.3.3",
+    "tsx": "^4.23.13",
+    "typescript": "^6.0.3"
+  }
+}

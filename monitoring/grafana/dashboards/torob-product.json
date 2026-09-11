@@ -1,0 +1,640 @@
+{
+  "uid": "torob-product",
+  "title": "Torob Rent · Product funnel (cohort-based)",
+  "tags": [
+    "torob-rent",
+    "prototype"
+  ],
+  "timezone": "Asia/Tehran",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "time": {
+    "from": "now-7d",
+    "to": "now"
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Search sessions",
+      "type": "stat",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "torob-rent-postgres"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 0
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "torob-rent-postgres"
+          },
+          "rawSql": "SELECT coalesce(sum(searches),0) AS searches FROM analytics_search_cohorts WHERE mode = '${mode}' AND $__timeFilter(time)",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "description": "One durable server search execution is one search cohort; retries from client navigation can create a new search.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "Unavailable",
+          "decimals": 0
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 2,
+      "title": "Zero-result rate",
+      "type": "stat",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "torob-rent-postgres"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 0
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "torob-rent-postgres"
+          },
+          "rawSql": "SELECT sum(zero_results)::float / nullif(sum(searches),0) AS rate FROM analytics_search_cohorts WHERE mode = '${mode}' AND $__timeFilter(time)",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "description": "Zero-result searches / all searches initiated in selected interval and mode.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "noValue": "Unavailable",
+          "decimals": 2
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 3,
+      "title": "Search → booking request",
+      "type": "stat",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "torob-rent-postgres"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 0
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "torob-rent-postgres"
+          },
+          "rawSql": "SELECT sum(requested)::float / nullif(sum(searches),0) AS rate FROM analytics_search_cohorts WHERE mode = '${mode}' AND $__timeFilter(time)",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "description": "Distinct search cohorts with >=1 attributed booking / all search cohorts. Later booking progression stays attributed to initiating search day.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "noValue": "Unavailable",
+          "decimals": 2
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 4,
+      "title": "Search → listing view",
+      "type": "stat",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "torob-rent-postgres"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "torob-rent-postgres"
+          },
+          "rawSql": "SELECT sum(viewed)::float / nullif(sum(searches),0) AS rate FROM analytics_search_cohorts WHERE mode = '${mode}' AND $__timeFilter(time)",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "description": "Distinct search cohorts with >=1 attributed view / all search cohorts.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "noValue": "Unavailable",
+          "decimals": 2
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 5,
+      "title": "Search → comparison",
+      "type": "stat",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "torob-rent-postgres"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "torob-rent-postgres"
+          },
+          "rawSql": "SELECT sum(compared)::float / nullif(sum(searches),0) AS rate FROM analytics_search_cohorts WHERE mode = '${mode}' AND $__timeFilter(time)",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "description": "Distinct search cohorts with >=1 comparison / all search cohorts.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "noValue": "Unavailable",
+          "decimals": 2
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 6,
+      "title": "Search → completed rental",
+      "type": "stat",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "torob-rent-postgres"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "torob-rent-postgres"
+          },
+          "rawSql": "SELECT sum(completed)::float / nullif(sum(searches),0) AS rate FROM analytics_search_cohorts WHERE mode = '${mode}' AND $__timeFilter(time)",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "description": "Completed attributed search cohorts / all search cohorts; recent cohorts are immature.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "noValue": "Unavailable",
+          "decimals": 2
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 7,
+      "title": "Durable event counts",
+      "type": "table",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "torob-rent-postgres"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 16
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "torob-rent-postgres"
+          },
+          "rawSql": "SELECT kind, sum(events) AS events FROM analytics_event_daily WHERE mode = '${mode}' AND $__timeFilter(time) GROUP BY kind ORDER BY events DESC",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "description": "Listing views, comparisons, booking transitions and first owner publication; idempotent event keys.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "Unavailable",
+          "decimals": 0
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 8,
+      "title": "Booking cohort outcomes",
+      "type": "table",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "torob-rent-postgres"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 16
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "torob-rent-postgres"
+          },
+          "rawSql": "SELECT sum(requested_count) AS requested,sum(accepted_count) AS ever_accepted,sum(rejected_count) AS rejected,sum(handed_over_count) AS handed_over,sum(completed_count) AS completed FROM analytics_booking_cohorts WHERE mode = '${mode}' AND $__timeFilter(time)",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "description": "All outcomes attributed to booking request date. Accepted may later cancel; categories are not mutually exclusive.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "Unavailable",
+          "decimals": 0
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 9,
+      "title": "Booking cancellation rate",
+      "type": "stat",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "torob-rent-postgres"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 16
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "torob-rent-postgres"
+          },
+          "rawSql": "SELECT sum(cancelled_count)::float/nullif(sum(requested_count),0) AS rate FROM analytics_booking_cohorts WHERE mode = '${mode}' AND $__timeFilter(time)",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "description": "Cancelled requests / all booking requests created in selected interval; same booking cohort.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "noValue": "Unavailable",
+          "decimals": 2
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 10,
+      "title": "First published listing activations",
+      "type": "stat",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "torob-rent-postgres"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 24
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "torob-rent-postgres"
+          },
+          "rawSql": "SELECT coalesce(sum(events) FILTER(WHERE kind='owner_activated'),0) AS owners FROM analytics_event_daily WHERE mode = '${mode}' AND $__timeFilter(time)",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "description": "At most one activation event per workspace/user. Preloaded synthetic catalog is excluded.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "Unavailable",
+          "decimals": 0
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 11,
+      "title": "Median owner response · rolling 7 days",
+      "type": "stat",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "torob-rent-postgres"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 24
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "torob-rent-postgres"
+          },
+          "rawSql": "SELECT median_seconds FROM analytics_owner_response WHERE mode='${mode}' AND \"window\"='7d'",
+          "format": "table",
+          "editorMode": "code"
+        }
+      ],
+      "description": "Exact median of first acceptance/rejection response times, responses in past 7 days. Pending/expired/cancelled-without-response excluded. Fixed rolling window.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "noValue": "Unavailable",
+          "decimals": 2
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 12,
+      "title": "Search cohorts over time",
+      "type": "timeseries",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "torob-rent-postgres"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 24
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "torob-rent-postgres"
+          },
+          "rawSql": "SELECT time,sum(searches) AS searches,sum(requested) AS requested,sum(completed) AS completed FROM analytics_search_cohorts WHERE mode = '${mode}' AND $__timeFilter(time) GROUP BY time ORDER BY time",
+          "format": "time_series",
+          "editorMode": "code"
+        }
+      ],
+      "description": "Same initiating-search cohorts; follow-up outcomes backfill earlier days.",
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "Unavailable",
+          "decimals": 0
+        },
+        "overrides": []
+      }
+    }
+  ],
+  "editable": false,
+  "templating": {
+    "list": [
+      {
+        "name": "mode",
+        "label": "Data cohort",
+        "type": "custom",
+        "query": "demo,real,test",
+        "current": {
+          "text": "demo",
+          "value": "demo"
+        },
+        "options": [
+          {
+            "text": "demo",
+            "value": "demo",
+            "selected": true
+          },
+          {
+            "text": "real",
+            "value": "real",
+            "selected": false
+          },
+          {
+            "text": "test",
+            "value": "test",
+            "selected": false
+          }
+        ],
+        "includeAll": false,
+        "multi": false
+      }
+    ]
+  }
+}
