@@ -1,16 +1,8 @@
 "use client";
-import { useState, type ReactNode } from "react";
-import { CalendarDays, MapPin, Check, Plus, ArrowUpLeft, HardDrive, MemoryStick } from "lucide-react";
+import type { ReactNode } from "react";
+import { MapPin, Check, Plus, ArrowUpLeft, HardDrive, MemoryStick } from "lucide-react";
 import Link from "next/link";
-import {
-  fa,
-  money,
-  persianDate,
-  normalizeDate,
-  rentalDays,
-  type Listing,
-  type Requirements,
-} from "@/lib/domain";
+import { fa, money, persianDate, rentalDays, type Listing, type Requirements } from "@/lib/domain";
 import { useApp } from "./provider";
 export function IconLabel({ children, icon }: { children: ReactNode; icon: ReactNode }) {
   return (
@@ -29,62 +21,7 @@ export function Field({ label, children, hint }: { label: string; children: Reac
     </label>
   );
 }
-export function DateField({
-  label,
-  value,
-  onChange,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-}) {
-  const [raw, setRaw] = useState<string | null>(null);
-  const formatted = value
-    ? new Intl.DateTimeFormat("fa-IR", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        timeZone: "Asia/Tehran",
-      }).format(new Date(`${value}T12:00:00Z`))
-    : "";
-  return (
-    <Field label={label} hint="ساعت ۱۲ ظهر · تهران">
-      <div className="date-input">
-        <CalendarDays size={17} />
-        <input
-          value={raw ?? formatted}
-          onChange={(e) => setRaw(e.target.value)}
-          aria-invalid={raw !== null && !normalizeDate(raw)}
-          onBlur={() => {
-            if (raw !== null) {
-              const date = normalizeDate(raw);
-              if (date) {
-                onChange(date);
-                setRaw(null);
-              } else {
-                onChange("");
-              }
-            }
-          }}
-          placeholder="۱۴۰۵/۰۶/۲۱"
-          aria-label={label}
-        />
-        <input
-          type="date"
-          value={value}
-          aria-label={`تقویم ${label}`}
-          onChange={(e) => {
-            if (e.target.value) {
-              onChange(e.target.value);
-              setRaw(null);
-            }
-          }}
-        />
-      </div>
-      {raw !== null && !normalizeDate(raw) && <small className="red-text">تاریخ معتبر وارد کنید.</small>}
-    </Field>
-  );
-}
+export { DateField } from "./jalali-date-field";
 export function Price({ listing, requirements }: { listing: Listing; requirements: Requirements }) {
   let days = 3;
   try {
