@@ -4,6 +4,8 @@ The SSH alias `XDo` was resolved from the user's existing SSH config. Ubuntu 24.
 
 Layout: `/opt/torob-rent/releases/20260911-initial`, symlink `/opt/torob-rent/current`; Compose project `torob-rent`; app `127.0.0.1:3417`; no public database port. Named volumes `torob-rent_postgres` and `torob-rent_uploads`. PostgreSQL 18 mounts `/var/lib/postgresql`. Application uses role `torob_app`, migrations use separate administrator credentials, Grafana uses aggregate-only `torob_reporting`. The existing `foroushyar_app` network connects monitoring privately.
 
+The final application code release is Git commit `e99ec7b`, image `torob-rent:e99ec7b`, release directory `/opt/torob-rent/releases/e99ec7b`. The initial directory and previous image remain available for rollback. Later documentation-only commits do not require rebuilding the application.
+
 ## Repeatable deployment
 
 Run on the server from a new release containing the reviewed source:

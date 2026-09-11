@@ -21,6 +21,8 @@ This record describes executed checks, not a proposed test plan. Evidence uses s
 
 Public browser rental `f3737d23…` completed with simulated rental value 2,550,000 toman, separate 35,000,000 toman deposit and 127,500 toman estimated commission. Those actual persisted **demo** outcomes appeared through Grafana queries. The reporting role exposes no raw user/session/booking records. [Deployed monitoring query evidence](evidence/deployed-monitoring.json).
 
+A second complete public browser journey (`ce5a43f8…`, 1,770,000 toman rental) verified search → comparison → view → request → acceptance → handoff → completion attribution after the navigation fix. The final captured dashboards showed 4,320,000 toman **simulated** completed GMV, 216,000 toman estimated commission, and one completed attributed search cohort among 11 searches. No business outcome was inserted directly for presentation. Subsequent visitors can naturally change these counts. [Database permissions/cohort checks](evidence/database-checks.txt).
+
 Defects discovered and fixed during validation:
 
 - Windows local PostgreSQL initially used a legacy encoding; initialized a UTF-8 database for Persian data.

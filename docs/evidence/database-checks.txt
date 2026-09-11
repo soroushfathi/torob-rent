@@ -1,8 +1,8 @@
-        kind         | total | attributed 
+        kind         | total | attributed
 ---------------------+-------+------------
  booking_accepted    |     2 |          1
- booking_completed   |     1 |          0
- booking_handed_over |     1 |          0
+ booking_completed   |     2 |          1
+ booking_handed_over |     2 |          1
  booking_requested   |     3 |          2
  comparison          |     3 |          2
  listing_view        |     3 |          2
@@ -10,26 +10,24 @@
  search              |    11 |         11
 (8 rows)
 
-  status   | bookings | attributed | simulated_rental_toman | separate_deposit_toman 
+  status   | bookings | attributed | simulated_rental_toman | separate_deposit_toman
 -----------+----------+------------+------------------------+------------------------
  requested |        1 |          1 |                1950000 |               32000000
- completed |        1 |          0 |                2550000 |               35000000
- accepted  |        1 |          1 |                1770000 |               28000000
-(3 rows)
+ completed |        2 |          1 |                4320000 |               63000000
+(2 rows)
 
- mode | searches | viewed | compared | requested | accepted | completed 
+ mode | searches | viewed | compared | requested | accepted | completed
 ------+----------+--------+----------+-----------+----------+-----------
- demo |       11 |      2 |        2 |         2 |        1 |         0
+ demo |       11 |      2 |        2 |         2 |        1 |         1
 (1 row)
 
- reporting_can_read_users | reporting_can_read_bookings | reporting_can_read_aggregates 
+ reporting_can_read_users | reporting_can_read_bookings | reporting_can_read_aggregates
 --------------------------+-----------------------------+-------------------------------
  f                        | f                           | t
 (1 row)
 
-     rolname     | rolsuper | rolcreatedb | rolcreaterole 
+     rolname     | rolsuper | rolcreatedb | rolcreaterole
 -----------------+----------+-------------+---------------
  torob_reporting | f        | f           | f
  torob_app       | f        | f           | f
 (2 rows)
-
