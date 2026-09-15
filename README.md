@@ -6,6 +6,41 @@ An independent hiring-challenge prototype for renting a MacBook in Tehran for a 
 
 Every new visitor receives a private demo workspace with 12 synthetic offers and separate owner/renter identities. Switch roles in the demo strip. Real email/password accounts use a separate marketplace; no inventory or demand is claimed to be real. All payments are simulated. No money, identity documents, escrow, insurance or guarantees are collected.
 
+## Demo & pitch
+
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <a href="https://drive.google.com/file/d/1-IcG8VHDeTFZvfL6GRQhJX3RYGUus-cL/view">
+        <img src="docs/media/demo-video.svg" alt="Watch the Torob Rent product demo" width="100%" />
+      </a>
+      <br />
+      <strong>Product demo</strong>
+      <br />
+      <sub>Watch the renter and owner journey from search to return.</sub>
+      <br /><br />
+      <a href="https://drive.google.com/file/d/1-IcG8VHDeTFZvfL6GRQhJX3RYGUus-cL/view"><strong>▶ Watch the video</strong></a>
+    </td>
+    <td width="50%" align="center">
+      <a href="https://docs.google.com/presentation/d/1gJVFulfV0j18XUsSdN8LsgQy4IOhug37V1kQ8Bm0BXQ/present?slide=id.p1">
+        <img src="docs/media/pitch-deck.svg" alt="Open the Torob Rent early prototype pitch deck" width="100%" />
+      </a>
+      <br />
+      <strong>Early prototype pitch</strong>
+      <br />
+      <sub>Explore the problem, product thesis, prototype, and next step.</sub>
+      <br /><br />
+      <a href="https://docs.google.com/presentation/d/1gJVFulfV0j18XUsSdN8LsgQy4IOhug37V1kQ8Bm0BXQ/present?slide=id.p1"><strong>▣ Open the slides</strong></a>
+    </td>
+  </tr>
+</table>
+
+<p align="center">
+  <a href="https://torob-rent.xdo-run.ir"><strong>Launch the live prototype →</strong></a>
+  &nbsp;·&nbsp;
+  <a href="https://drive.google.com/drive/folders/1ciNEOjmt7-EZactip1K3wrhLVV2AyrAf">Browse all demo materials</a>
+</p>
+
 ## What works
 
 - Persian RTL search, editable extracted criteria, Jalali dates and Persian/Arabic numerals; strict budget, deposit, neighborhood and availability filters.
